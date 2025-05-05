@@ -12,14 +12,14 @@ from algorithms.astar import astar
 from algorithms.dstar_lite import dstar_lite
 from algorithms.theta_star import theta_star
 
-# 定义算法字典
+
 ALGORITHMS = {
     'A*': astar,
     'D*-Lite': dstar_lite,
     'Theta*': theta_star
 }
 
-# 判断某个位置是否有可通的邻居
+
 def has_accessible_neighbors(grid, x, y):
     for dx, dy in [(-1,0), (1,0), (0,-1), (0,1)]:
         nx, ny = x + dx, y + dy
@@ -27,7 +27,7 @@ def has_accessible_neighbors(grid, x, y):
             return True
     return False
 
-# 判断起点与终点是否连通
+
 def is_reachable(grid, start, goal):
     if grid[start[1]][start[0]] == 1 or grid[goal[1]][goal[0]] == 1:
         return False
@@ -48,11 +48,11 @@ def is_reachable(grid, start, goal):
 
     return False
 
-# 输出目录
+
 current_dir = os.path.dirname(__file__)
 all_results = []
 
-# 每次实验单独记录并绘图
+
 successful_runs = 0
 attempt = 0
 MAX_ATTEMPTS = 100
@@ -91,7 +91,7 @@ while successful_runs < NUM_RUNS and attempt < MAX_ATTEMPTS:
             })
             all_results.append(results[-1])
 
-    # 每轮绘图
+    
     metrics = ['time_sec', 'memory_kb', 'path_length']
     metric_labels = {'time_sec': 'Time (s)', 'memory_kb': 'Memory (KB)', 'path_length': 'Path Length'}
     style = {
@@ -122,14 +122,14 @@ while successful_runs < NUM_RUNS and attempt < MAX_ATTEMPTS:
 
     successful_runs += 1
 
-# 所有结果写入 CSV
+
 csv_path = os.path.join(current_dir, "path_planning_experiment.csv")
 with open(csv_path, mode='w', newline='') as file:
     writer = csv.DictWriter(file, fieldnames=all_results[0].keys())
     writer.writeheader()
     writer.writerows(all_results)
 
-# 平均图表（最后 3 张）
+
 metrics = ['time_sec', 'memory_kb', 'path_length']
 metric_labels = {'time_sec': 'Time (s)', 'memory_kb': 'Memory (KB)', 'path_length': 'Path Length'}
 style = {
@@ -158,5 +158,4 @@ for metric in metrics:
     plt.savefig(plot_path)
     plt.close()
 
-print("所有图表已保存，共 33 张。")
-print(f"成功轮数: {successful_runs} / {NUM_RUNS}, 共尝试: {attempt} 次")
+print(f"Successful runs: {successful_runs} / {NUM_RUNS}, tried: {attempt} times")
